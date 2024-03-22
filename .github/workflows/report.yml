@@ -15,15 +15,15 @@
 # specific language governing permissions and limitations
 # under the License.
 
-name: CI
+name: "CI_Test"
 
 on:
   push:
     branches:
-    - main
+    - master
   pull_request:
     branches:
-    - main
+    - master
 
 jobs:
   build_and_test:
