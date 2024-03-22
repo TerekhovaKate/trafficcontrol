@@ -15,30 +15,23 @@
 # specific language governing permissions and limitations
 # under the License.
 
-name: "Test_Report"
-
+name: 'Test Report'
 on:
-  push:
-    branches:
-    - master
-  pull_request:
-    branches:
-    - master
-
+  workflow_run:
+    workflows: ['CI']                     # runs after CI workflow
+    types:
+      - completed
+permissions:
+  contents: read
+  actions: read
+  checks: write
 jobs:
-  build_and_test:
-
-    env:
-      BUILD_CONFIG: 'Release'
-      SOLUTION: 'Solution1/UnitTest.sln'
-
-    runs-on: self-hosted
-  steps:
-      - uses: actions/checkout@v3         # checkout the repo
-      - run: npm ci                       # install packages
-      - run: npm test                     # run tests (configured to use jest-junit reporter)
-      - uses: actions/upload-artifact@v3  # upload test results
-        if: success() || failure()        # run this step even if previous step failed
-        with:
-          name: test-results
-          path: jest-junit.xml
+  report:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: dorny/test-reporter@v1
+      with:
+        artifact: test-results            # artifact name
+        name: JEST Tests                  # Name of the check run which will be created
+        path: '*.xml'                     # Path to test results (inside artifact .zip)
+        reporter: jest-junit              # Format of test results
