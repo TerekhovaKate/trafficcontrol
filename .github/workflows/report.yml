@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-name: "CI_Test"
+name: "Test_Report"
 
 on:
   push:
@@ -33,29 +33,12 @@ jobs:
       SOLUTION: 'Solution1/UnitTest.sln'
 
     runs-on: self-hosted
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.x
-
-    - name: Restore dependencies
-      run: dotnet restore $SOLUTION
-
-    - name: Build
-      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
-
-    - name: Test
-      run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "trx;LogFileName=test-results.trx" || true
-
-    - name: Test Report
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: DotNET Tests
-        path: "**/test-results.trx"
-        reporter: dotnet-trx
-        fail-on-error: true
+  steps:
+      - uses: actions/checkout@v3         # checkout the repo
+      - run: npm ci                       # install packages
+      - run: npm test                     # run tests (configured to use jest-junit reporter)
+      - uses: actions/upload-artifact@v3  # upload test results
+        if: success() || failure()        # run this step even if previous step failed
+        with:
+          name: test-results
+          path: jest-junit.xml
