@@ -44,6 +44,11 @@ on:
       - traffic_control/clients/python/**.py
     types: [opened, reopened, ready_for_review, synchronize]
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
 
   APIv4ContractTests:
