@@ -122,6 +122,6 @@ jobs:
       if: success() || failure()
       with:
         name: TO api contract tests
-        path: "**/test.xml"
+        path: "./test.xml
         reporter: jest-junit
         fail-on-error: false
