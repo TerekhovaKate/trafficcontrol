@@ -116,3 +116,12 @@ jobs:
         path: ${{ github.workspace }}/traffic_ops/traffic_ops_golang/traffic.ops.log
     - name: Save Alpine Docker image
       run: .github/actions/save-alpine-tar/entrypoint.sh save ${{ env.ALPINE_VERSION }}
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: TO api contract tests
+        path: "**/test.xml"
+        reporter: jest-junit
+        fail-on-error: false

@@ -119,7 +119,6 @@ cp "${resources}/database.json" database.conf
 
 truncate --size=0 traffic.ops.log # Removes output from previous API versions and makes sure files exist
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf &
-
 cd "../testing/api_contract/v$INPUT_VERSION"
 
-pytest -rA --to-user admin --to-password twelve12 --to-url https://localhost:6443/api/4.0
+pytest -rA --to-user admin --to-password twelve12 --to-url https://localhost:6443/api/4.0 --junitxml=./test.xml
