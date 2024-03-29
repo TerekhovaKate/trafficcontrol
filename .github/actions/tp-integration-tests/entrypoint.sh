@@ -143,4 +143,5 @@ timeout 5m bash <<TMOUT
   done
 TMOUT
 
-npm test -- --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/5.0"
+mocha --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/5.0" --reporter mocha-junit-reporter --reporter-options mochaFile=test-results.xml
+#npm test -- --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/5.0"
