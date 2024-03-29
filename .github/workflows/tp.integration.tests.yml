@@ -51,6 +51,11 @@ on:
       - traffic_portal/**
     types: [ opened, reopened, ready_for_review, synchronize ]
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   unit-tests:
     if: github.event.pull_request.draft == false
@@ -171,3 +176,10 @@ jobs:
           path: ${{ github.workspace }}/traffic_portal/test/integration/Reports/
       - name: Save Alpine Docker image
         run: .github/actions/save-alpine-tar/entrypoint.sh save ${{ env.ALPINE_VERSION }}
+
+      - uses: dorny/test-reporter@v1
+        with:
+          artifact: test-results            # artifact name
+          name: JEST Tests                  # Name of the check run which will be created
+          path: '*.xml'                     # Path to test results (inside artifact .zip)
+          reporter: jest-junit              # Format of test results
