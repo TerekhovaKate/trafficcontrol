@@ -89,11 +89,11 @@ jobs:
           path: ${{ github.workspace }}/traffic_router/core/*/*-reports/TEST-*.xml
           numFailures: 999 # The maximum number of test failures to annotate
           cwd: ${{ github.workspace }}/traffic_router
-      - name: Test Report
+      - name: TR Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
-          name: TO api contract tests
+          name: TR tests
           path: ${{ github.workspace }}/traffic_router/core/*/*-reports/TEST-*.xml
           reporter: java-junit
           fail-on-error: false
