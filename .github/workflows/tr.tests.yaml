@@ -40,6 +40,11 @@ on:
       - traffic_router/**
     types: [ opened, reopened, ready_for_review, synchronize ]
 
+permissions:
+  contents: read
+  checks: write
+  actions: read
+
 jobs:
   tests:
     if: github.event.pull_request.draft == false
