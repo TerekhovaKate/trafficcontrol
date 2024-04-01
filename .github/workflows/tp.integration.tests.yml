@@ -92,14 +92,6 @@ jobs:
         working-directory: traffic_portal
         run: npm run test:ci
 
-      - uses: dorny/test-reporter@v1
-        with:
-          artifact: test-results            # artifact name
-          name: JEST Tests                  # Name of the check run which will be created
-          path: '*.xml'                     # Path to test results (inside artifact .zip)
-          reporter: jest-junit              # Format of test results
-
-
   integration-tests:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest

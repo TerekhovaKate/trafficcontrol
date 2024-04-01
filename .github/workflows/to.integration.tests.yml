@@ -212,6 +212,15 @@ jobs:
     - name: Save Alpine Docker image
       run: .github/actions/save-alpine-tar/entrypoint.sh save ${{ env.ALPINE_VERSION }}
 
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: TO Tests
+        path: "**/junit/golang.test.toapi.${api_version}.xml"
+        reporter: jest-junit
+        fail-on-error: false
+
   APIv5Tests:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
@@ -291,11 +300,3 @@ jobs:
     - name: Save Alpine Docker image
       run: .github/actions/save-alpine-tar/entrypoint.sh save ${{ env.ALPINE_VERSION }}
 
-    - name: Test Report
-      uses: dorny/test-reporter@v1
-      if: success() || failure()
-      with:
-        name: TO Tests
-        path: "**/junit/golang.test.toapi.${api_version}.xml"
-        reporter: jest-junit
-        fail-on-error: false
